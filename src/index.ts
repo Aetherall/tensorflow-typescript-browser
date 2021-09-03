@@ -1,2 +1,2 @@
-import "./debug";
-console.log("Client loaded !");
+import "./simple-gradient-descent";
+import "./tfvis-demo";
