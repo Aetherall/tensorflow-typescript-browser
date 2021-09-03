@@ -5,28 +5,46 @@ const esbuild = {
   test: /\.ts$/,
   loader: "esbuild-loader",
   options: {
-    target: "es2015",
+    loader: "ts",
+    target: "esnext",
   },
 };
 
 module.exports = {
   mode: "development",
-  entry: ["./src/entrypoint.js"],
+  entry: ["./src/index.ts"],
   module: { rules: [esbuild] },
   resolve: { extensions: [".js", ".ts", ".json"] },
   devtool: "inline-source-map",
   devServer: {
     static: ["./dist", "./public"],
-    hot: true,
+    hot: false,
+    liveReload: true,
     client: { logging: "warn" },
+  },
+  optimization: {
+    runtimeChunk: "single",
+    moduleIds: "deterministic",
+    splitChunks: {
+      chunks: "all",
+      maxInitialRequests: Infinity,
+      minSize: 0,
+      cacheGroups: {
+        vendor: {
+          test: /[\\/]node_modules[\\/]/,
+          name: "node_modules",
+          chunks: "all",
+        },
+      },
+    },
   },
   plugins: [
     new HtmlWebpackPlugin({
-      title: "Hot Module Replacement",
+      title: "[TF] Playground",
     }),
   ],
   output: {
-    filename: "[name].bundle.js",
+    filename: "[name].[contenthash].js",
     path: path.resolve(__dirname, "dist"),
     clean: true,
   },
