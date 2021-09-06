@@ -20,3 +20,5 @@ const button = document.createElement("button");
 button.textContent = "Run simple gradient descent";
 button.onclick = run;
 document.body.appendChild(button);
+
+export {}
